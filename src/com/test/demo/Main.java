@@ -140,6 +140,8 @@ public class Main {
 		SST.put("f", 6);
 		
 		SST.show();
-		StdOut.println(SST.size("b", "c")+"  " + SST.get("a"));
+		StdOut.println(SST.get("a"));
+		
+		//
 	}
 }
