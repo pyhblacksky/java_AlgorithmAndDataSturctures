@@ -5,9 +5,12 @@ import com.my.sort.*;
 /*
  * 	简单的有序泛型符号表
  * 	用数组实现吗？
+<<<<<<< HEAD
  * 
  * 	这里只是一些实现所需要的api
  * 	可以基于此模板自行创建
+=======
+>>>>>>> refs/remotes/origin/master
  * */
 
 public class SimpleST<Key extends Comparable<Key>, Value> {
