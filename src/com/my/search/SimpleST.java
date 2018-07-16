@@ -4,7 +4,7 @@ import com.my.sort.*;
 
 /*
  * 	简单的有序泛型符号表
- * 
+ * 	用数组实现吗？
  * */
 
 public class SimpleST<Key extends Comparable<Key>, Value> {
@@ -15,20 +15,25 @@ public class SimpleST<Key extends Comparable<Key>, Value> {
 	//	创建一张有序符号表
 	public SimpleST(int n)
 	{
-		N = n;
-		ST = new Comparable[N];
+		ST = new Comparable[n];
 		Quick.sort(ST);
 	}
 	
 	//	将键值对存入表中（若值为空则将键key从表中删除）
 	public void put(Key key, Value value)
 	{
-		
+		ST[(int) value] = key;
+		N++;
 	}
 	
 	//	获取键key对应的值（若key不存在则返回空）
 	public Value get(Key key)
 	{
+		for(int i = 0; i < N; i++)
+		{
+			if(ST[i].equals(key))
+				return null;//返回什么?
+		}
 		return null;
 	}
 	
