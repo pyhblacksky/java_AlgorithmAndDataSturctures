@@ -1,43 +1,60 @@
 package com.my.search;
 import com.algs.api.*;
-import com.my.sort.*;
 
 /*
- * 	简单的有序泛型符号表
- * 	用数组实现吗？
+ * 顺序查找（基于无序链表）
  * 
- * 	这里只是一些实现所需要的api
- * 	可以基于此模板自行创建
  * */
 
-public class SimpleST<Key extends Comparable<Key>, Value> {
-	
-	private int N = 0;
-	private Comparable<Key>[] ST;
-	
-	//	创建一张有序符号表
-	public SimpleST(int n)
+public class SequentialSearchST<Key, Value> {
+
+	//	使用链表， 定义链表
+	private class Node
 	{
-		ST = new Comparable[n];
-		Quick.sort(ST);
+		//	链表结点的定义
+		Key key;
+		Value val;
+		Node next;
+		public Node(Key key, Value val, Node next)
+		{
+			this.key = key;
+			this.val = val;
+			this.next = next;
+		}
 	}
+	private Node first;	//	链表首结点 	
+	
+	private int N = 0;	//	用于计数
 	
 	//	将键值对存入表中（若值为空则将键key从表中删除）
-	public void put(Key key, Value value)
+	public void put(Key key, Value val)
 	{
-		ST[(int) value] = key;
-		N++;
+		//	查找给定的键，找到则更新其值，否则在表中新建结点
+		for(Node x = first; x != null; x=x.next)
+		{
+			//	若命中，则更新
+			if(key.equals(x.key))
+			{
+				x.val = val;
+				return;
+			}
+		}
+		//	没有，新建结点
+		first = new Node(key, val, first);
 	}
 	
 	//	获取键key对应的值（若key不存在则返回空）
 	public Value get(Key key)
 	{
-		for(int i = 0; i < N; i++)
+		//	查找给定的键，返回关联的值
+		for(Node x = first; x != null; x = x.next)
 		{
-			if(ST[i].equals(key))
-				return null;//返回什么?
+			if(key.equals(x.key))
+			{
+				return x.val;	//	命中，成功找到
+			}
 		}
-		return null;
+		return null;	//	未命中，返回null
 	}
 	
 	//	从表中删去key
@@ -61,6 +78,11 @@ public class SimpleST<Key extends Comparable<Key>, Value> {
 	//	表中的键值对数量
 	public int size()
 	{
+		int N = 0;
+		for(Node x = first; x != null; x = x.next)
+		{
+			N++;
+		}
 		return N;
 	}
 	
@@ -115,12 +137,19 @@ public class SimpleST<Key extends Comparable<Key>, Value> {
 	//	[lo..hi]之间键的数量
 	public int size(Key lo, Key hi)
 	{
-		if(hi.compareTo(lo) < 0)
-			return 0;
-		else if(contains(hi))
-			return rank(hi) - rank(lo) + 1;
-		else
-			return rank(hi) - rank(lo);
+		int N = 0;
+		for(Node x = first; x != null; x = x.next)
+		{
+			if(lo.equals(x.key))
+			{
+				while(!hi.equals(x.key))
+				{
+					x = x.next;
+					N++;
+				}
+			}
+		}
+		return N;
 	}
 	
 	//	[lo..hi]之间的所有键，已排序
@@ -135,5 +164,14 @@ public class SimpleST<Key extends Comparable<Key>, Value> {
 		return keys(min(), max());
 	}
 	
-	
+	//	显示函数段
+	public void show()
+	{
+		for(Node x = first; x != null; x = x.next)
+		{
+			StdOut.print("key:"+x.key+"  value:"+x.val);
+			StdOut.println();
+		}
+		StdOut.println();
+	}
 }

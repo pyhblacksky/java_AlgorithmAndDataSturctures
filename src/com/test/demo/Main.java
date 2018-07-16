@@ -3,6 +3,7 @@ import com.test.demo.*;
 import java.util.Arrays;
 import com.algs.api.*;
 import com.my.algs.*;
+import com.my.search.SequentialSearchST;
 import com.my.sort.*;
 
 public class Main {
@@ -128,5 +129,11 @@ public class Main {
 		Comparable[] sort_selection_three = {'b','d','k','h','c','g','q','z','a','y','u','i','e'};
 		Heap.sort(sort_selection_three);
 		Heap.show(sort_selection_three);
+		
+		//	≤‚ ‘À≥–Ú≤È’“
+		SequentialSearchST<String, Integer> SST = new SequentialSearchST<String, Integer>();
+		SST.put("a", 1);
+		SST.put("b", 2);
+		SST.show();
 	}
 }
