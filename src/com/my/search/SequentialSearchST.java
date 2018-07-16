@@ -134,22 +134,27 @@ public class SequentialSearchST<Key, Value> {
 		delete(max());
 	}
 	
-	//	[lo..hi]之间键的数量
+	//	[lo..hi]之间键的数量,这里实现有问题，待修改
 	public int size(Key lo, Key hi)
 	{
-		int N = 0;
-		for(Node x = first; x != null; x = x.next)
+		int N = size();
+		if(lo.equals(hi))
+			N = 0;
+		for(Node x = first; x != null && !lo.equals(hi); x = x.next)
 		{
 			if(lo.equals(x.key))
 			{
-				while(!hi.equals(x.key))
+				Node y = x;
+				while(true)
 				{
-					x = x.next;
-					N++;
+					N--;
+					if(y == null || hi.equals(y.key))
+						break;
+					y = y.next;				
 				}
 			}
 		}
-		return N;
+		return N+1;
 	}
 	
 	//	[lo..hi]之间的所有键，已排序

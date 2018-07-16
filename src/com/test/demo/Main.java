@@ -134,6 +134,12 @@ public class Main {
 		SequentialSearchST<String, Integer> SST = new SequentialSearchST<String, Integer>();
 		SST.put("a", 1);
 		SST.put("b", 2);
+		SST.put("c", 3);
+		SST.put("d", 4);
+		SST.put("e", 5);
+		SST.put("f", 6);
+		
 		SST.show();
+		StdOut.println(SST.size("b", "c")+"  " + SST.get("a"));
 	}
 }
