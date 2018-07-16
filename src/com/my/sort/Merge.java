@@ -1,6 +1,12 @@
 package com.my.sort;
 import com.algs.api.*;
 
+/**
+ * 实现归并排序
+ * 
+ * 
+ * */
+
 public class Merge {
 	
 	// 归并排序所需的辅助数组

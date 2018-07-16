@@ -1,6 +1,11 @@
 package com.my.algs;
-
 import java.util.Iterator;
+
+/**
+ * 背包数据结构的实现
+ * 
+ * 
+ * */
 
 public class myBag<Item> implements Iterable<Item> {
 

@@ -1,6 +1,12 @@
 package com.my.sort;
 import com.algs.api.*;;
 
+/**
+ * 实现三向切分快速排序
+ * 
+ * 
+ * */
+
 public class Quick3Way {
 	
 	public static void sort(Comparable[] a)

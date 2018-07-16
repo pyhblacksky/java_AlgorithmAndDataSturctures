@@ -1,7 +1,12 @@
 package com.my.algs;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+/**
+ * 队列数据结构的实现（链表）
+ * 
+ * 
+ * */
 
 public class myQueue<Item> implements Iterable<Item> {
 	private class Node

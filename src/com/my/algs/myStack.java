@@ -3,11 +3,8 @@ package com.my.algs;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/*
- * 链表实现下压栈
- * 
- * 
- * 
+/**
+ * 用链表实现下压栈
  * 
  * 
  * */

@@ -1,7 +1,7 @@
 package com.my.sort;
 
 /*
- *	计时器
+ *	简单的计时器
  * 
  * */
 

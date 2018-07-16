@@ -1,6 +1,12 @@
 package com.my.sort;
 import com.algs.api.*;
 
+/**
+ * 实现快速排序
+ * 
+ * 
+ * */
+
 public class Quick {
 	
 	public static void sort(Comparable[] a)

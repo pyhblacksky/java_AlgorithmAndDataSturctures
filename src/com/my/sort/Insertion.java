@@ -3,6 +3,12 @@ import java.util.Comparator;
 
 import com.algs.api.*;
 
+/**
+ *  µœ÷≤Â»Î≈≈–Ú
+ * 
+ * 
+ * */
+
 public class Insertion {
 	public static void sort(Comparable[] a)
 	{
