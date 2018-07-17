@@ -29,7 +29,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 	//	是否为空
 	public boolean isEmpty()
 	{
-		return N == 0;
+		return keys[0] == null;
 	}
 	
 	//	基于有序数组的二分查找（迭代）,本实现的关键操作
@@ -109,6 +109,19 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 		return keys[N-1];
 	}
 	
+	//	删除最小键
+	public void deleteMin()
+	{
+		delete(min());
+	}
+	
+	//	删除最大键
+	public void deleteMax()
+	{
+		delete(max());
+	}
+	
+	//	显示
 	public void show()
 	{
 		for(int i = 0; i < N; i++)

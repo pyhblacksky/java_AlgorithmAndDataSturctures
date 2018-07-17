@@ -144,18 +144,18 @@ public class Main {
 		StdOut.println(SST.get("a"));
 		
 		//	测试二分查找表
-		BinarySearchST<String, Integer> BST = new BinarySearchST<>(10);
-		BST.put("a", 1);
-		BST.put("b", 2);
-		BST.put("c", 3);
-		BST.put("d", 4);
-		BST.put("e", 5);
-		BST.put("f", 6);
+		BinarySearchST<String, Integer> binarySearchST = new BinarySearchST<>(10);
+		binarySearchST.put("a", 1);
+		binarySearchST.put("b", 2);
+		binarySearchST.put("c", 3);
+		binarySearchST.put("d", 4);
+		binarySearchST.put("e", 5);
+		binarySearchST.put("f", 6);
 		StdOut.println("二分查找表：");
-		StdOut.println(BST.size());
-		BST.show();
-		BST.delete("b");
-		BST.show();
-		StdOut.println(BST.min()+"  get:"+ BST.get("e"));
+		StdOut.println(binarySearchST.size());
+		binarySearchST.show();
+		binarySearchST.delete("b");
+		binarySearchST.show();
+		StdOut.println(binarySearchST.min()+"  get:"+ binarySearchST.get("e"));
 	}
 }
