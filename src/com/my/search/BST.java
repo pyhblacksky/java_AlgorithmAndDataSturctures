@@ -15,7 +15,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 		private Value val;	//	值
 		private Key key;	//	键
 		private int N;		//	以该结点为根的子树中结点总数
-		public Node(Value val, Key key, int N)
+		public Node(Key key, Value val, int N)
 		{
 			this.N = N;
 			this.val = val;
@@ -36,6 +36,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 		return size(root);
 	}
 	
+	//	使用递归来实现
 	//	查找方法实现
 	private Value get(Node x, Key key)
 	{
@@ -56,5 +57,56 @@ public class BST<Key extends Comparable<Key>, Value> {
 		return get(root, key);
 	}
 	
+	//	使用递归来实现
+	//	插入操作，且排序方法的实现
+	private Node put(Node x, Key key, Value val)
+	{
+		//	若key存在于x的子树当中，则更新它的值
+		//	否则根据大小以key和val为键值对 添加新结点到子树中
+		if(x == null)
+			return new Node(key, val, 1);
+		int cmp = key.compareTo(x.key);
+		if(cmp < 0)
+			x.left = put(x.left, key, val);
+		else if(cmp > 0)
+			x.right = put(x.right, key, val);
+		else	//	键相同，更新值
+			x.val = val;
+		//	完成一次操作，结点计数器+1
+		x.N = size(x.left) + size(x.right) + 1;
+		return x;
+	}
+	public void put(Key key, Value val)
+	{
+		root = put(root, key, val);
+	}
 	
+	/*
+	 * 此处是非递归实现二叉查找树
+	 * 实际应用中以非递归的为主
+	 * */
+	//	插入并排序,非递归
+	public void NoRecursivePut(Key key, Value val)
+	{
+		
+	}
+	
+	//	查找并返回值，非递归
+	public Value NoRecursiveGet(Key key)
+	{
+		Node x = root;
+		while(x != null)
+		{
+			int cmp = key.compareTo(x.key);
+			if(cmp == 0)
+				return x.val;
+			else if(cmp < 0)
+				x = x.left;
+			else if(cmp > 0)
+				x = x.right;
+		}
+		return null;
+	}
+	
+	/*************************************************/
 }
