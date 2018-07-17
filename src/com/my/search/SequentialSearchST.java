@@ -3,7 +3,7 @@ import com.algs.api.*;
 
 /*
  * 顺序查找（基于无序链表）
- * 
+ * 效率比较低
  * */
 
 public class SequentialSearchST<Key, Value> {
