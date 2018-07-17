@@ -88,7 +88,21 @@ public class BST<Key extends Comparable<Key>, Value> {
 	//	插入并排序,非递归
 	public void NoRecursivePut(Key key, Value val)
 	{
-		
+		Node x = root;
+		if(x == null)
+		{
+			x = new Node(key, val, 1);
+			root = x;
+			return;
+		}
+		while(x != null)
+		{
+			if(x == null)
+				x = new Node(key, val, 1);
+			int cmp = key.compareTo(x.key);
+			
+		}
+		x.N = size(x.left) + size(x.right) + 1;
 	}
 	
 	//	查找并返回值，非递归
