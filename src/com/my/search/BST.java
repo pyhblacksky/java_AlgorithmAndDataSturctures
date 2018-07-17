@@ -81,11 +81,90 @@ public class BST<Key extends Comparable<Key>, Value> {
 		root = put(root, key, val);
 	}
 	
+	//	最小键
+	public Key min()
+	{
+		Node x = root;
+		if(x == null)
+			return null;
+		while(x != null)
+		{
+			if(x.left == null)
+				break;
+			x = x.left;
+		}
+		return x.key;
+	}
+	
+	//	最大键
+	public Key max()
+	{
+		Node x = root;
+		if(x == null)
+			return null;
+		while(x != null)
+		{
+			if(x.right == null)
+				break;
+			x = x.right;
+		}
+		return x.key;
+		
+	}
+	
+	//	小于等于key的最大键
+	public Key ceiling(Key key)
+	{
+		Node x = ceiling(root, key);
+		if(x == null)
+			return null;
+		return x.key;
+	}
+	private Node ceiling(Node x, Key key)
+	{
+		if(x == null)
+			return null;
+		int cmp = key.compareTo(x.key);
+		if(cmp == 0)
+			return x;
+		if(cmp > 0)
+			return ceiling(x.right, key);
+		Node temp = x.left;
+		if(temp != null)
+			return temp;
+		else
+			return x;
+	}
+	
+	//	大于等于key的最小键
+	public Key floor(Key key)
+	{
+		Node x = floor(root, key);
+		if(x == null)
+			return null;
+		return x.key;
+	}
+	private Node floor(Node x, Key key)
+	{
+		if(x == null)
+			return null;
+		int cmp = key.compareTo(x.key);
+		if(cmp == 0)
+			return x;
+		if(cmp < 0)
+			return floor(x.left, key);
+		Node temp = x.right;
+		if(temp != null)
+			return temp;
+		else
+			return x;
+	}
+	
 	/*
 	 * 此处是非递归实现二叉查找树
 	 * 实际应用中以非递归的为主
 	 * */
-	//	插入并排序,非递归
+	//	插入并排序,非递归			尚未实现
 	public void NoRecursivePut(Key key, Value val)
 	{
 		Node x = root;
@@ -97,8 +176,6 @@ public class BST<Key extends Comparable<Key>, Value> {
 		}
 		while(x != null)
 		{
-			if(x == null)
-				x = new Node(key, val, 1);
 			int cmp = key.compareTo(x.key);
 			
 		}
