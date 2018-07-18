@@ -1,5 +1,8 @@
 package com.my.search;
 
+import com.algs.api.StdOut;
+import com.my.algs.myQueue;
+
 /*
  * 二叉查找树实现查找
  * 
@@ -97,6 +100,13 @@ public class BST<Key extends Comparable<Key>, Value> {
 		}
 		return x.key;
 	}
+	//	返回最小结点
+	private Node min(Node x)
+	{
+		if(x.left == null)
+			return x;
+		return min(x.left);
+	}
 	
 	//	最大键
 	public Key max()
@@ -111,7 +121,13 @@ public class BST<Key extends Comparable<Key>, Value> {
 			x = x.right;
 		}
 		return x.key;
-		
+	}
+	//	返回最大结点
+	private Node max(Node x)
+	{
+		if(x.right == null)
+			return x;
+		return max(x.right);
 	}
 	
 	//	小于等于key的最大键
@@ -203,32 +219,100 @@ public class BST<Key extends Comparable<Key>, Value> {
 	//	删除最小值，不断遍历，直到最左结点
 	public void deleteMin()
 	{
-		Node x = root;
-		if(x == null)
-			return;
-		while(x.left != null)
-		{
-			x = x.left;
-		}
-		x = null;
-		x.N--;
+		root = deleteMin(root);
+	}
+	private Node deleteMin(Node x)
+	{
+		//	左子树已为空，仅剩下右子树
+		if(x.left == null)
+			return x.right;	//	返回右子树的连接
+		x.left = deleteMin(x.left);	// 不断递归遍历
+		x.N = size(x.left) + size(x.right) + 1;	//	需要改变N值
+		return x;
 	}
 	
 	//	删除最大值，不断遍历，直到最右结点
 	public void deleteMax()
 	{
-		Node x = root;
-		if(x == null)
-			return;
-		while(x.right != null)
-		{
-			x = x.right;
-		}
-		x = null;
-		x.N--;
+		root = deleteMax(root);
+	}
+	private Node deleteMax(Node x)
+	{
+		//	右子树为空，只剩下左子树
+		if(x.right == null)
+			return x.left;
+		x.right = deleteMax(x.right);	//不断遍历
+		x.N = size(x.right) + size(x.left) + 1;	//	需要改变N值
+		return x;
 	}
 	
 	//	最难实现的方法 —— delete 操作	需要改变树的结构
+	public void delete(Key key)
+	{
+		root = delete(root, key);
+	}
+	private Node delete(Node x, Key key)
+	{
+		if(x == null)
+			return null;
+		int cmp = key.compareTo(x.key);
+		if(cmp < 0)
+			x.left = delete(x.left, key);
+		else if(cmp > 0)
+			x.right = delete(x.right, key);
+		else	// 相等时
+		{
+			if(x.right == null)
+				return x.left;
+			if(x.left == null)
+				return x.right;
+			Node temp = x;
+			x = min(temp.right);
+			x.right = deleteMin(temp.right);
+			x.left = temp.left;
+		}
+		return x;
+	}
+	
+	//	中序遍历输出二叉树
+	public void print()
+	{
+		print(root);
+	}
+	private void print(Node x)
+	{
+		if(x == null)
+			return;
+		print(x.left);
+		StdOut.println(" " + x.key + " ");
+		print(x.right);
+	}
+	
+	//	二叉查找树的范围操作
+	private void keys(Node x, myQueue<Key> queue, Key lo, Key hi)
+	{
+		if( x == null)
+			return;
+		int cmplo = lo.compareTo(x.key);
+		int cmphi = hi.compareTo(x.key);
+		if(cmplo < 0)
+			keys(x.left, queue, lo, hi);
+		if(cmphi > 0)
+			keys(x.right, queue, lo, hi);
+		if(cmplo <=0 && cmphi >= 0)
+			queue.enQueue(x.key);
+	}
+	
+	public Iterable<Key> keys(Key lo, Key hi)
+	{
+		myQueue<Key> queue = new myQueue<Key>();
+		keys(root, queue, lo, hi);
+		return queue;
+	}
+	public Iterable<Key> keys()
+	{
+		return keys(min(),max());
+	}
 	
 	
 	/*
