@@ -3,6 +3,8 @@ package com.my.search;
 /*
  * 二叉查找树实现查找
  * 
+ * 二叉查找树：左小右大，左子树小于根结点，右子树大于根结点
+ * 
  * */
 
 public class BST<Key extends Comparable<Key>, Value> {
@@ -160,6 +162,75 @@ public class BST<Key extends Comparable<Key>, Value> {
 			return x;
 	}
 	
+	//	排名rank，
+	public int rank(Key key)
+	{
+		return rank(root, key);
+	}
+	//	返回以x为根结点的子树中小于x.key的键的数量
+	private int rank(Node x, Key key)
+	{
+		if(x == null)
+			return 0;
+		int cmp = key.compareTo(x.key);
+		if(cmp < 0)
+			return rank(x.left, key);
+		else if(cmp > 0)		//	rank(x.right, key) 为了返回所有的比key小的左子树数目
+			return 1 + size(x.left) + rank(x.right, key);
+		else //	比key小的键数量
+			return size(x.left);
+	}
+	
+	//	找出排名为k的键
+	public Key select(int k)
+	{
+		return select(root, k).key;
+	}
+	private Node select(Node x, int k)
+	{
+		//	返回排名为k的结点
+		if(x == null)
+			return null;
+		int t = size(x.left);
+		if(t > k)	//	全比k小
+			return select(x.left, k);
+		if(t < k)	//	k比较大 需要减小k值进行遍历
+			return select(x.right, k-t-1);
+		else
+			return x;
+	}
+	
+	//	删除最小值，不断遍历，直到最左结点
+	public void deleteMin()
+	{
+		Node x = root;
+		if(x == null)
+			return;
+		while(x.left != null)
+		{
+			x = x.left;
+		}
+		x = null;
+		x.N--;
+	}
+	
+	//	删除最大值，不断遍历，直到最右结点
+	public void deleteMax()
+	{
+		Node x = root;
+		if(x == null)
+			return;
+		while(x.right != null)
+		{
+			x = x.right;
+		}
+		x = null;
+		x.N--;
+	}
+	
+	//	最难实现的方法 —— delete 操作	需要改变树的结构
+	
+	
 	/*
 	 * 此处是非递归实现二叉查找树
 	 * 实际应用中以非递归的为主
@@ -182,7 +253,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 		x.N = size(x.left) + size(x.right) + 1;
 	}
 	
-	//	查找并返回值，非递归
+	//	查找并返回值，非递归,已实现
 	public Value NoRecursiveGet(Key key)
 	{
 		Node x = root;
