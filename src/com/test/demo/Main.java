@@ -3,6 +3,7 @@ import com.test.demo.*;
 import java.util.Arrays;
 import com.algs.api.*;
 import com.my.algs.*;
+import com.my.search.BST;
 import com.my.search.BinarySearchST;
 import com.my.search.SequentialSearchST;
 import com.my.sort.*;
@@ -157,5 +158,17 @@ public class Main {
 		binarySearchST.delete("b");
 		binarySearchST.show();
 		StdOut.println(binarySearchST.min()+"  get:"+ binarySearchST.get("e"));
+		
+		//	测试二叉查找树（非平衡）
+		BST<String, Integer> bst = new BST<>();
+		bst.put("E", 1);
+		bst.put("A", 2);
+		bst.put("S", 3);
+		bst.put("Y", 4);
+		bst.put("Q", 5);
+		bst.put("U", 6);
+		bst.print();
+		StdOut.println(bst.rank("A"));
+		StdOut.println(bst.ceiling("G"));
 	}
 }
