@@ -1,9 +1,13 @@
 package com.my.search;
 
+import com.my.algs.myQueue;
+
 /*
  * 红黑树（红黑二叉查找树）的实现
  * 2-3树和普通二叉树查找树的结合，相比2-3树易于实现
  * 将红链画平就是一颗平衡的二叉树
+ * 
+ * 小值在左(left)  大值在右(right)
  * 
  * 普通二叉查找树的优点：简洁高效的查找方法
  * 2-3树的优点：高效的平衡插入算法
@@ -17,7 +21,7 @@ package com.my.search;
 
 public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	
-	/***************************************/
+	/***********************************************************************************/
 	//	红黑树关键实现
 	private static final boolean RED = true;
 	private static final boolean BLACK = false;
@@ -51,7 +55,8 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	
 	//	在红黑树种，不允许出现红色右链接和两条连续的红链接，所以需要旋转
 	//	旋转可以保持红黑树的两个性质：有序性和完美平衡性
-	//	左旋转，将红色右链接转为左,重置父节点（或根结点），出现红色右链接时使用
+	//	左旋转 ———— 将红链接转到左边
+	//	左旋转，将红色右链接转为左,重置父节点（或根结点），出现红色右链接时使用 
 	public Node rotateLeft(Node h)
 	{
 		Node x = h.right;
@@ -64,6 +69,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 		return x;
 	}
 	
+	//	右旋转 ————— 将红链接旋转到右边
 	//	右旋转，出现连续两条左红链接时
 	public Node rotateRight(Node h)
 	{
@@ -74,7 +80,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 		h.color = RED;
 		x.N = h.N;
 		h.N = 1 + size(h.left) + size(h.right);
-		return x;		
+		return x;
 	}
 	
 	//	向一颗双键树（3-结点）中插入新建，即有连续的红链接，需要将红链接全变为黑链接,然后源结点向上是红链接
@@ -170,7 +176,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	
 	// delete 删除操作，更为复杂
 	/**************************/
-	//	删除最小值        保证当前结点不是2-结点
+	//	删除最小值        沿着左链接向下变换,保证当前结点不是2-结点（变为可能是3结点，可能是临时4结点）
 	private Node moveRedLeft(Node h)
 	{
 		//	假设结点h是红色，h.left和h.right是黑色
@@ -194,6 +200,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	}
 	public void deleteMin()
 	{
+		//	root 左右不为红，root合并为一个红
 		if(!isRed(root.left) && !isRed(root.right))
 			root.color = RED;
 		root = deleteMin(root);
@@ -204,19 +211,77 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	/**************************/
 	
 	//	删除最大值
-	
-	
+	private Node moveRedRight(Node h)
+	{
+		//	假设结点h为红色，h.left 和  h.right 均为黑色
+		//	将h.right 或者h.right 的子节点之一变红
+		flipColors(h);
+		if(!isRed(h.left.left))
+			h = rotateRight(h);
+		return h;
+	}
+	private Node deleteMax(Node h)
+	{
+		if(isRed(h.left))
+			h = rotateRight(h);
+		if(h.right == null)
+			return null;
+		if(!isRed(h.right) && !isRed(h.right.left))
+			h = moveRedRight(h);
+		h.right = deleteMax(h.right);
+		return balance(h);
+	}
+	public void deleteMax()
+	{
+		//	root 左右不为红，root合并为一个红
+		if(!isRed(root.right) && !isRed(root.left))
+			root.color = RED;
+		root = deleteMax(root);
+		if(!isEmpty())
+			root.color = BLACK;
+	}
 	
 	/**************************/
 	
 	//	 删除操作
 	public void delete(Key key)
 	{
-		
+		//	root 左右不为红，root合并为一个红
+		if(!isRed(root.left) && !isRed(root.right))
+			root.color = RED;
+		root = delete(root, key);
+		if(!isEmpty())
+			root.color = BLACK;
+	}
+	private Node delete(Node h, Key key)
+	{
+		if(key.compareTo(h.key) < 0)
+		{
+			if(!isRed(h.left) && !isRed(h.left.left))
+				h = moveRedRight(h);
+			h.left = delete(h.left, key);
+		}
+		else
+		{
+			if(isRed(h.left))
+				h = rotateRight(h);
+			if(key.compareTo(h.key) == 0 && (h.right == null))
+				return null;
+			if(!isRed(h.right) && !isRed(h.right.left))
+				h = moveRedRight(h);
+			if(key.compareTo(h.key) == 0)
+			{
+				h.val = get(h.right, min(h.right).key);
+				h.key = min(h.right).key;
+				h.right = deleteMin(h.right);
+			}
+			else 
+				h.right = delete(h.right, key);
+		}
+		return balance(h);
 	}
 	
-	
-	/***************************************/
+	/***********************************************************************************/
 	//	返回结点数
 	private int size(Node x)
 	{
@@ -251,6 +316,142 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 	public boolean isEmpty()
 	{
 		return root == null;
+	}
+	
+	//	返回最小结点
+	private Node min(Node x)
+	{
+		if(x.left == null)
+			return x;
+		return min(x.left);
+	}
+	//	返回最小键
+	public Key min()
+	{
+		return min(root).key;
+	}
+	
+	//	 返回最大结点
+	private Node max(Node x)
+	{
+		if(x.right == null)
+			return x;
+		return max(x.right);
+	}
+	//	返回最大键
+	public Key max()
+	{
+		return max(root).key;
+	}
+	
+	//	ceiling 返回小于等于key的最大键
+	private Node ceiling(Node h, Key key)
+	{
+		if(h == null)
+			return null;
+		int cmp = key.compareTo(h.key);
+		if(cmp == 0)
+			return h;
+		if(cmp > 0)
+			return ceiling(h.right, key);
+		Node temp = h.left;
+		if(temp != null)
+			return temp;
+		else
+			return h;
+	}
+	public Key ceiling(Key key)
+	{
+		Node h = ceiling(root, key);
+		if(h == null)
+			return null;
+		return h.key;
+	}
+	
+	//	floor 返回小于等于keyd最小键
+	private Node floor(Node h, Key key)
+	{
+		if(h == null)
+			return null;
+		int cmp = key.compareTo(h.key);
+		if(cmp == 0)
+			return h;
+		if(cmp < 0)
+			return floor(h.left, key);
+		Node temp = h.right;
+		if(temp != null)
+			return temp;
+		else
+			return h;
+	}
+	public Key floor(Key key)
+	{
+		Node h = floor(root, key);
+		if(h == null)
+			return null;
+		return h.key;
+	}
+	
+	//	排名rank
+	private int rank(Node h, Key key)
+	{
+		if(h == null)
+			return 0;
+		int cmp = key.compareTo(h.key);
+		if(cmp < 0)
+			return rank(h.left, key);
+		else if(cmp > 0)
+			return 1 + size(h.left) + size(h.right);
+		else
+			return size(h.left);
+	}
+	public int rank(Key key)
+	{
+		return rank(root, key);
+	}
+	
+	//	找出排名为k的键
+	private Node select(Node h, int k)
+	{
+		if(h == null)
+			return null;
+		int t = size(h.left);
+		if(t > k)
+			return select(h.left, k);
+		else if(t < k)
+			return select(h.right, k-t-1);
+		else
+			return h;
+	}
+	public Key select(int k)
+	{
+		return select(root, k).key;
+	}
+	
+	//	二叉查找树的范围操作
+	private void keys(Node x, myQueue<Key> queue, Key lo, Key hi)
+	{
+		if( x == null)
+			return;
+		int cmplo = lo.compareTo(x.key);
+		int cmphi = hi.compareTo(x.key);
+		if(cmplo < 0)
+			keys(x.left, queue, lo, hi);
+		if(cmphi > 0)
+			keys(x.right, queue, lo, hi);
+		if(cmplo <=0 && cmphi >= 0)
+			queue.enQueue(x.key);
+	}
+	
+	public Iterable<Key> keys(Key lo, Key hi)
+	{
+		myQueue<Key> queue = new myQueue<Key>();
+		keys(root, queue, lo, hi);
+		return queue;
+	}
+	public Iterable<Key> keys()
+	{
+		return keys(min(),max());
 	}
 	
 }
