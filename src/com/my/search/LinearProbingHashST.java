@@ -68,7 +68,7 @@ public class LinearProbingHashST<Key, Value> {
 	}
 	
 	
-	//	调整数组大小
+	//	调整数组大小,防止长键簇的出现影响效率
 	public void resize(int cap)
 	{
 		LinearProbingHashST<Key, Value> temp;
@@ -115,7 +115,7 @@ public class LinearProbingHashST<Key, Value> {
 			i = (i + 1) % M;
 		}
 		N--;
-		if(N > 0 && N == M/8)
+		if(N > 0 && N <= M/8)
 			resize(M/2);
 	}
 }
