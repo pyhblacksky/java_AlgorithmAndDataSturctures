@@ -46,7 +46,35 @@ public class SeparateChainingHashST<Key, Value> {
 	//	插入
 	public void put(Key key, Value val)
 	{
-		st[hash(key)].put(key, val);
+		if(key == null)
+			throw new IllegalArgumentException("first argument to put() is null.");
+		if(val == null)
+		{
+			delete(key);
+			return;
+		}
+		
+		int i = hash(key);
+		if(!st[i].contains(key))
+			N++;
+		st[i].put(key, val);
 	}
 	
+	//	返回大小
+	public int size()
+	{
+		return N;
+	}
+	
+	//	删除操作
+	public void delete(Key key)
+	{
+		if(key == null)
+			throw new IllegalArgumentException("argument to delete() is null.");
+		
+		int i = hash(key);
+		if(st[i].contains(key))
+			N--;
+		st[i].delete(key);
+	}
 }

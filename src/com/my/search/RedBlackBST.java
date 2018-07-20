@@ -368,7 +368,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 		return h.key;
 	}
 	
-	//	floor 返回小于等于keyd最小键
+	//	floor 返回小于等于key的最小键
 	private Node floor(Node h, Key key)
 	{
 		if(h == null)
