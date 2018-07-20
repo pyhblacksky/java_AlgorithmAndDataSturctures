@@ -1,5 +1,7 @@
 package com.my.search;
 
+import com.my.algs.myQueue;
+
 /*
  * 	基于 拉链法 的散列表
  * 	
@@ -40,6 +42,7 @@ public class SeparateChainingHashST<Key, Value> {
 	//	查找
 	public Value get(Key key)
 	{
+		// 	最后使用链表SequentialSearch中的查找
 		return (Value) st[hash(key)].get(key);
 	}
 	
@@ -76,5 +79,25 @@ public class SeparateChainingHashST<Key, Value> {
 		if(st[i].contains(key))
 			N--;
 		st[i].delete(key);
+	}
+	
+	//	迭代器
+	public Iterable<Key> keys()
+	{
+		myQueue<Key> queue = new myQueue<Key>();
+		for(int i = 0; i < M; i++)
+		{
+			for(Key key : st[i].keys())
+				queue.enQueue(key);
+		}
+		return queue;
+	}
+	
+	//	确定是否包含
+	public boolean contains(Key key)
+	{
+		if(key == null)
+			throw new IllegalArgumentException("argument to contains() is null.");
+		return get(key) != null;
 	}
 }
