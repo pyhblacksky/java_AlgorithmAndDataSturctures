@@ -9,7 +9,7 @@ import com.algs.api.Stack;
 
 public class DepthFirstPaths {
 	
-	private boolean[] maked;	//	这个顶点调用过DFS了吗？
+	private boolean[] marked;	//	这个顶点调用过DFS了吗？
 	private int[] edgeTo;		//	从起点到一个顶点的已知路径上的最后一个顶点
 	private final int s;
 	
@@ -17,7 +17,7 @@ public class DepthFirstPaths {
 	public DepthFirstPaths(Graph G, int s)
 	{
 		this.s = s;
-		maked = new boolean[G.V()];
+		marked = new boolean[G.V()];
 		edgeTo = new int[G.V()];
 		dfs(G, s);
 	}
@@ -25,10 +25,10 @@ public class DepthFirstPaths {
 	//	DFS	深度优先搜索
 	private void dfs(Graph G, int v)
 	{
-		maked[v] = true;
+		marked[v] = true;
 		for(int w : G.adj(v))
 		{
-			if(!maked[w])
+			if(!marked[w])
 			{
 				edgeTo[w] = v;
 				dfs(G, w);
@@ -39,7 +39,7 @@ public class DepthFirstPaths {
 	//	起点到点v是否存在路径
 	public boolean hasPathTo(int v)
 	{
-		return maked[v];
+		return marked[v];
 	}
 	
 	//	s 到 v 的路径，如果不存在，则返回null
