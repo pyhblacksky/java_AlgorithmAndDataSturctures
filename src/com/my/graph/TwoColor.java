@@ -34,7 +34,7 @@ public class TwoColor {
 				color[w] = !color[v];
 				dfs(G, v);
 			}
-			else if(color[w] == color[v])	//	对于已标记的点
+			else if(color[w] == color[v])	//	对于已标记的点,进行检查
 				isTwoColorable = false;
 		}
 	}
