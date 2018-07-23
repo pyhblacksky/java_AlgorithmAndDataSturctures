@@ -1,5 +1,8 @@
 package com.my.graph;
 
+import com.algs.api.Bag;
+import com.algs.api.StdIn;
+
 /*
  * 	图的实现
  * 	可以应用的数据结构：
@@ -13,45 +16,63 @@ package com.my.graph;
 
 public class Graph {
 	
-	public int V;	//	顶点
-	public int E;	//	边
+	private final int V;	//	顶点
+	private int E;	//	边
+	private Bag<Integer>[] adj;
+	
 	
 	//	创建一个含有V个顶点但不含边的图
-	public Graph(int v)
+	public Graph(int V)
 	{
-		
+		this.V = V;
+		this.E = 0;
+		adj = (Bag<Integer>[]) new Bag[V];	//	创建邻接表
+		for(int v = 0; v < V; v++)		//	将所有链表初始化为空
+		{
+			adj[v] = new Bag<Integer>();
+		}
 	}
 	
 	//	用标准输入流In来读入一幅图
-	/*
-	public Graph(In in)
+	
+	public Graph(StdIn in)
 	{
-		
+		this(in.readInt());	//	读取V并将图初始化
+		int E = in.readInt();	//	读取E
+		for(int e = 0; e < E; e++)
+		{
+			//	添加一条边
+			int v = in.readInt();	//	点v
+			int w = in.readInt();	//	点w
+			addEdge(v, w);
+		}
 	}
-	*/
+	
 	
 	//	顶点数
 	public int V()
 	{
-		return 0;
+		return V;
 	}
 	
 	//	边数
 	public int E()
 	{
-		return 0;
+		return E;
 	}
 	
 	//	向图中添加一条边v-w
 	public void addEdge(int v, int w)
 	{
-		
+		adj[v].add(w);	//	将v添加到w链表中
+		adj[w].add(v);	//	将w添加到v链表中
+		E++;
 	}
 	
 	//	和v相邻的所有顶点,遍历，但遍历顺序不确定
 	public Iterable<Integer> adj(int v)
 	{
-		return null;
+		return adj[v];
 	}
 	
 	//	对象的字符串表示, 图的邻接表的字符串表示（Graph的实例方法）
