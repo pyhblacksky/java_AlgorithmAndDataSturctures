@@ -28,7 +28,7 @@ public class DepthFirstPaths {
 		marked[v] = true;
 		for(int w : G.adj(v))
 		{
-			if(!marked[w])
+			if(!marked[w])	//	对于每个未标记的相邻顶点进行操作
 			{
 				edgeTo[w] = v;
 				dfs(G, w);
