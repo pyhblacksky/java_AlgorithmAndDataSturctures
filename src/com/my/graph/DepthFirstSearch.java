@@ -2,7 +2,7 @@ package com.my.graph;
 
 /*
  * 	实现	深度优先搜索（DFS）
- * 
+ * 	单点连通性
  * 
  * */
 
@@ -20,7 +20,7 @@ public class DepthFirstSearch {
 	//	DFS，深度优先搜索
 	private void dfs(Graph G, int v)
 	{
-		marked[v] = true;
+		marked[v] = true;	//	起点标记
 		count++;
 		for(int w : G.adj(v))
 		{

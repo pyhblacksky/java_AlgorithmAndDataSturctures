@@ -1,7 +1,7 @@
 package com.my.graph;
 
 import com.algs.api.Bag;
-import com.algs.api.StdIn;
+import com.algs.api.In;
 
 /*
  * 	图的实现
@@ -34,8 +34,7 @@ public class Graph {
 	}
 	
 	//	用标准输入流In来读入一幅图
-	
-	public Graph(StdIn in)
+	public Graph(In in)
 	{
 		this(in.readInt());	//	读取V并将图初始化
 		int E = in.readInt();	//	读取E
@@ -47,7 +46,6 @@ public class Graph {
 			addEdge(v, w);
 		}
 	}
-	
 	
 	//	顶点数
 	public int V()

@@ -4,6 +4,7 @@ import com.algs.api.Stack;
 
 /*
  * 	使用(DFS)深度优先搜索图中的路径
+ * 	单点路径
  * 	
  * */
 
@@ -25,7 +26,7 @@ public class DepthFirstPaths {
 	//	DFS	深度优先搜索
 	private void dfs(Graph G, int v)
 	{
-		marked[v] = true;
+		marked[v] = true;		//	起点标记
 		for(int w : G.adj(v))
 		{
 			if(!marked[w])	//	对于每个未标记的相邻顶点进行操作

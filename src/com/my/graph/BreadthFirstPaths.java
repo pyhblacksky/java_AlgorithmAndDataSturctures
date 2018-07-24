@@ -5,7 +5,7 @@ import com.algs.api.Stack;
 
 /*
  * 	使用(BFS)广度优先搜索查找图中的路径
- * 
+ * 	单点最短路径
  * 
  * */
 
