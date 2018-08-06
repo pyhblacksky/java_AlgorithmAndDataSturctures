@@ -1,37 +1,32 @@
 package com.my.graph;
 
-import com.algs.api.IndexMinPQ;
 import com.algs.api.Stack;
 
 /*
- * 	最短路径的迪杰斯特拉算法
- * 	寻找从s到v的最短路	
- * 
+ * 	无环加权有向图的最短路径算法
+ * 	
+ * 	使用了拓扑排序，对效率进行了提升
  * */
 
-public class DijkstraSP {
+public class AcyclicSP {
 	
-	private DirectedEdge[] edgeTo;	//	最短路径树中的边
-	private double[] distTo;		//	到达起点的距离
-	private IndexMinPQ<Double> pq;
+	private DirectedEdge[] edgeTo;
+	private double[] distTo;
 	
-	public DijkstraSP(EdgeWeightedDigraph G, int s)
+	public AcyclicSP(EdgeWeightedDigraph G, int s)
 	{
 		edgeTo = new DirectedEdge[G.V()];
 		distTo = new double[G.V()];
-		pq = new IndexMinPQ<Double>(G.V());
 		
 		for(int v = 0; v < G.V(); v++)
-			distTo[v] = Double.POSITIVE_INFINITY;	//	默认为无穷大
-		
+			distTo[v] = Double.POSITIVE_INFINITY;
 		distTo[s] = 0.0;
 		
-		pq.insert(s, 0.0);
-		while(!pq.isEmpty())
-			relax(G, pq.delMin());
+		Topological top = new Topological(G);
+		
 	}
 	
-	//	顶点的松弛
+	//	 顶点的松弛
 	private void relax(EdgeWeightedDigraph G, int v)
 	{
 		for(DirectedEdge e : G.adj(v))
@@ -41,15 +36,11 @@ public class DijkstraSP {
 			{
 				distTo[w] = distTo[v] + e.weight();
 				edgeTo[w] = e;
-				if(pq.contains(w))
-					pq.change(w, distTo[w]);
-				else
-					pq.insert(w, distTo[w]);
 			}
 		}
 	}
-	
-	//	标准查询,	默认SP均包含
+	 
+	//	标准查询
 	public double distTo(int v)
 	{
 		return distTo[v];

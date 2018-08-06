@@ -23,6 +23,11 @@ public class Topological {
 		}
 	}
 	
+	//	为了计算无环加权有向图的最短路径，需要对拓扑排序此处进行重载
+	public Topological(EdgeWeightedDigraph g) {
+		// TODO Auto-generated constructor stub
+	}
+
 	//	是否为有向无环图
 	public boolean isDAG()
 	{
