@@ -23,7 +23,8 @@ public class AcyclicSP {
 		distTo[s] = 0.0;
 		
 		Topological top = new Topological(G);
-		
+		for(int v : top.order())
+			relax(G, v);
 	}
 	
 	//	 ¶¥µãµÄËÉ³Ú
