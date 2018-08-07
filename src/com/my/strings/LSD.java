@@ -51,7 +51,7 @@ public class LSD {
 				count[r+1] += count[r];					//	将频率转换为索引
 			
 			for(int i = 0; i < N; i++)
-				aux[count[a[i].charAt(d)]++] = a[i];	//	将元素分类
+				aux[count[a[i].charAt(d)]++] = a[i];	//	将元素分类，移动位置
 			
 			for(int i = 0; i < N; i++)
 				a[i] = aux[i];							//	回写
