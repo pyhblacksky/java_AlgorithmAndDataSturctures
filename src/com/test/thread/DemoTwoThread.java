@@ -1,8 +1,9 @@
-package com.test.demo;
+package com.test.thread;
 
 /*
  * 	对于线程类的扩展实现
- * 
+ * 	创建子线程
+ * 	必须被重载的是run()函数
  * */
 
 public class DemoTwoThread extends Thread{
@@ -11,7 +12,7 @@ public class DemoTwoThread extends Thread{
 	public DemoTwoThread()
 	{
 		super("Child two");
-		System.out.println("Child Thread : " + this);
+		System.out.println("Child Thread Two : " + this + " 优先级：" + getPriority());
 		start();
 	}
 	
@@ -29,6 +30,7 @@ public class DemoTwoThread extends Thread{
 		{
 			System.out.println("Child Two Interrupted!");
 		}
+		System.out.println("Child Two Exit!");
 	}
 	
 }
