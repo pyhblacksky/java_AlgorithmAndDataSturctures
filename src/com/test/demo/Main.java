@@ -128,9 +128,6 @@ public class Main {
 		maxpq.insert(45.7);
 		maxpq.show();
 
-		Comparable[] sort_selection_three = {'b','d','k','h','c','g','q','z','a','y','u','i','e'};
-		Heap.sort(sort_selection_three);
-		Heap.show(sort_selection_three);
 		
 		//	≤‚ ‘À≥–Ú≤È’“
 		SequentialSearchST<String, Integer> SST = new SequentialSearchST<String, Integer>();
