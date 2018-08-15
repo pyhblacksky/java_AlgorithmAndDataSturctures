@@ -35,13 +35,10 @@ public class myBag<Item> implements Iterable<Item> {
 	
 	public void add(Item item)
 	{
-		Node temp = new Node();
-		temp.item = item;
-		temp.next = null;
-		if(isEmpty())
-			first = temp;
-		else
-			first.next = temp;
+		Node temp = first;
+		first = new Node();
+		first.item = item;
+		first.next = temp;
 		N++;
 	}
 	
