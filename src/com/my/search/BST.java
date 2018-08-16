@@ -284,7 +284,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 		if(x == null)
 			return;
 		print(x.left);
-		StdOut.println(" " + x.key + " ");
+		System.out.println("key :  " + x.key + "   value: " + x.val);
 		print(x.right);
 	}
 	
@@ -319,7 +319,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 	 * 此处是非递归实现二叉查找树
 	 * 实际应用中以非递归的为主
 	 * */
-	//	插入并排序,非递归			尚未实现
+	//	插入并排序,非递归			已实现
 	public void NoRecursivePut(Key key, Value val)
 	{
 		Node x = root;
@@ -332,7 +332,29 @@ public class BST<Key extends Comparable<Key>, Value> {
 		while(x != null)
 		{
 			int cmp = key.compareTo(x.key);
-			
+			if(cmp < 0)
+			{
+				if(x.left == null)
+				{
+					x.left = new Node(key, val, 1);
+					return;
+				}
+				x = x.left;
+			}
+			else if(cmp > 0)
+			{
+				if(x.right == null)
+				{
+					x.right = new Node(key, val, 1);
+					return;
+				}
+				x = x.right;
+			}
+			else
+			{
+				x.val = val;
+				return;
+			}
 		}
 		x.N = size(x.left) + size(x.right) + 1;
 	}
@@ -355,4 +377,16 @@ public class BST<Key extends Comparable<Key>, Value> {
 	}
 	
 	/*************************************************/
+	
+	
+	public static void main(String[] args)
+	{
+		BST bst = new BST();
+		bst.NoRecursivePut(5, 11);
+		bst.NoRecursivePut(11, 7);
+		bst.NoRecursivePut(1, 7);
+		bst.NoRecursivePut(78, 52);
+		bst.print();
+		System.out.println("value:"+bst.get(78));
+	}
 }
