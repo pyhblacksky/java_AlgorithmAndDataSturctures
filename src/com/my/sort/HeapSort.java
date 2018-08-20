@@ -22,7 +22,7 @@ public class HeapSort {
 			
 			//	  如果父节点的值已经大于孩子结点的值，则立即结束
 			if(temp >= array[child])
-				break;
+				break;	//	此处不能用return 否则会造成数据改变
 			
 			//	把孩子结点的值赋值给父节点
 			array[parent] = array[child];

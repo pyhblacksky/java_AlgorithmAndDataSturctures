@@ -378,6 +378,12 @@ public class BST<Key extends Comparable<Key>, Value> {
 	
 	/*************************************************/
 	
+	public static int aplusb(int a, int b) {
+        // write your code here
+		if (b == 0)
+	        return a;
+	    return aplusb(a ^b, (a&b) << 1);
+    }
 	
 	public static void main(String[] args)
 	{
@@ -388,5 +394,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 		bst.NoRecursivePut(78, 52);
 		bst.print();
 		System.out.println("value:"+bst.get(78));
+		
+		System.out.println(aplusb(100,200));
 	}
 }
